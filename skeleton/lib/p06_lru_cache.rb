@@ -15,6 +15,12 @@ class LRUCache
   end
 
   def get(key)
+    if @map.include?(key)
+      update_link!(@map.get(key))
+      @map[key].val
+    else
+      calc!(key)
+    end
   end
 
   def to_s
@@ -25,10 +31,16 @@ class LRUCache
 
   def calc!(key)
     # suggested helper method; insert an (un-cached) key
+    val = @prc.call(key)
+    eject! if @map.count == @max
+    link = @store.insert(key, val)
+    @map.set(key, link)
+    val
   end
 
   def update_link!(link)
     # suggested helper method; move a link to the end of the list
+    @store.remove(link.key)
   end
 
   def eject!
