@@ -101,4 +101,13 @@ class LinkedList
     inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
   end
 
+  def move_link_to_tail(link)
+    link.prev.next = link.next
+    link.next.prev = link.prev
+    @tail.next = link
+    link.prev = @tail
+    link.next = nil
+    @tail = link
+  end
+
 end#class

@@ -33,9 +33,11 @@ class DynamicArray
   end
 
   def [](i)
+    @store[i]
   end
 
   def []=(i, val)
+    @store[i] = val
   end
 
   def capacity
@@ -46,9 +48,18 @@ class DynamicArray
   end
 
   def push(val)
+    @store[@count]=val
+    @count +=1
   end
 
   def unshift(val)
+    @count += 1
+    resize! if @count == capacity
+    @count.times do |i|
+      old_idx = ((@count -1 ) - i)
+      @store[old_idx + 1] = @store[old_idx]
+    end
+    @store[0] = val
   end
 
   def pop
@@ -81,5 +92,9 @@ class DynamicArray
   private
 
   def resize!
+
+    new_arr = StaticArray.new(capacity * 2)
+
+
   end
 end
